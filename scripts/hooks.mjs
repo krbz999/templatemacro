@@ -1,8 +1,9 @@
-import { MODULE } from "./constants.mjs";
+import { INVALID_TYPES, MODULE } from "./constants.mjs";
 import { callMacro, findContainers, renderTemplateMacroConfig } from "./templatemacro.mjs";
 
 // Create a button in a template's header.
 export function _createHeaderButton(config, buttons) {
+  if (INVALID_TYPES.includes(config.object.type)) return;
   buttons.unshift({
     class: MODULE,
     icon: "fa-solid fa-ruler-combined",

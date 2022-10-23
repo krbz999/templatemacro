@@ -4,3 +4,11 @@ export const TRIGGERS = [
   "whenHidden", "whenRevealed",
   "whenEntered", "whenLeft", "whenStaying"
 ];
+export const INVALID_TYPES = [
+  "class",
+  "subclass",
+  "background",
+  "race",
+  "backpack",
+  "loot"
+];
