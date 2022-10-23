@@ -1,0 +1,11 @@
+{
+  "TEMPLATEMACRO": {
+    "whenCreated": "When Created",
+    "whenDeleted": "When Deleted",
+    "whenHidden": "When Hidden",
+    "whenRevealed": "When Revealed",
+    "whenEntered": "When Entered",
+    "whenLeft": "When Left",
+    "AS_GM": "Execute as GM:"
+  }
+}

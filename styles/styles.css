@@ -1,0 +1,40 @@
+.templatemacro:not(.whenCreated) .form-group.stacked.command[data-type="whenCreated"],
+.templatemacro:not(.whenDeleted) .form-group.stacked.command[data-type="whenDeleted"],
+.templatemacro:not(.whenHidden) .form-group.stacked.command[data-type="whenHidden"],
+.templatemacro:not(.whenRevealed) .form-group.stacked.command[data-type="whenRevealed"],
+.templatemacro:not(.whenEntered) .form-group.stacked.command[data-type="whenEntered"],
+.templatemacro:not(.whenLeft) .form-group.stacked.command[data-type="whenLeft"],
+.templatemacro:not(.whenCreated, .whenDeleted, .whenHidden, .whenRevealed, .whenEntered, .whenLeft) footer.sheet-footer.flexrow {
+  display: none;
+}
+
+.templatemacro .triggers {
+  display: inline-flex;
+  list-style-type: none;
+  gap: 0.5em;
+  justify-content: space-around;
+  padding: 0;
+  text-align: center;
+}
+
+.templatemacro .triggers .trigger {
+  font-family: "Modesto Condensed";
+  font-size: 25px;
+}
+
+.templatemacro .command-line,
+.templatemacro .as-gm {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.templatemacro.whenCreated .triggers .trigger[data-type="whenCreated"],
+.templatemacro.whenDeleted .triggers .trigger[data-type="whenDeleted"],
+.templatemacro.whenHidden .triggers .trigger[data-type="whenHidden"],
+.templatemacro.whenRevealed .triggers .trigger[data-type="whenRevealed"],
+.templatemacro.whenEntered .triggers .trigger[data-type="whenEntered"],
+.templatemacro.whenLeft .triggers .trigger[data-type="whenLeft"],
+.templatemacro .triggers .trigger:hover {
+  text-shadow: 0 0 14px red;
+}

@@ -1,0 +1,38 @@
+<form class="editable flexcol templatemacro" autocomplete="off">
+  <header class="sheet-header">
+    <h1>
+      <input name="name" type="text" value="{{name}}" disabled>
+    </h1>
+  </header>
+
+  <!-- temporary fix for monaco editor -->
+  <div class="form-group" style="display: none;">
+    <select name="type" disabled></select>
+  </div>
+
+  <!-- tabs -->
+  <ul class="triggers">
+    {{#each triggers as |trigger|}}
+    <li class="trigger" data-type="{{trigger.type}}">{{trigger.label}}</li>
+    {{/each}}
+  </ul>
+
+  {{#each triggers as |trigger|}}
+  <div class="form-group stacked command" data-type="{{trigger.type}}">
+    <div class="command-line">
+      <label>{{localize "Command"}}</label>
+      <div class="as-gm">
+        <label>{{localize "TEMPLATEMACRO.AS_GM"}}</label>
+        <input type="checkbox" name="flags.templatemacro.{{trigger.type}}.asGM" {{checked trigger.asGM}}>
+      </div>
+    </div>
+    <textarea name="flags.templatemacro.{{trigger.type}}.command">{{trigger.command}}</textarea>
+  </div>
+  {{/each}}
+
+  <footer class="sheet-footer flexrow">
+    <button type="submit">
+      <i class="fa-solid fa-save"></i> {{localize "Save"}}
+    </button>
+  </footer>
+</form>
