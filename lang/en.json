@@ -6,6 +6,7 @@
     "whenRevealed": "When Revealed",
     "whenEntered": "When Entered",
     "whenLeft": "When Left",
+    "whenStaying": "When Staying",
     "AS_GM": "Execute as GM:"
   }
 }

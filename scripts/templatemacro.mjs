@@ -22,7 +22,7 @@ export function callMacro(templateDoc, whenWhat, { gmId, userId }) {
   const id = asGM ? gmId : userId;
   if (game.user.id !== id) return;
   const fn = Function("template", "scene", body);
-  fn.call({}, template.object, templateDoc.parent);
+  fn.call({}, templateDoc.object, templateDoc.parent);
 }
 
 /**
@@ -45,7 +45,7 @@ export function findContainers(tokenDoc) {
         };
         const contains = object.shape.contains(curr.x, curr.y);
         if (contains) {
-          containers.push(templateDoc);
+          containers.push(templateDoc.id);
           continue;
         }
       }
@@ -87,7 +87,7 @@ export class TemplateMacroConfig extends MacroConfig {
     data.triggers = TRIGGERS.map(trigger => {
       return {
         type: trigger,
-        script: this.object.getFlag(MODULE, `${trigger}.command`),
+        command: this.object.getFlag(MODULE, `${trigger}.command`),
         asGM: this.object.getFlag(MODULE, `${trigger}.asGM`),
         label: game.i18n.localize(`TEMPLATEMACRO.${trigger}`)
       }
