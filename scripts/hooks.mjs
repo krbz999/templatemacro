@@ -18,13 +18,15 @@ export function _preUpdateToken(tokenDoc, update, context, userId) {
 }
 
 // find those you entered and left.
-export function _updateToken(tokenDoc, update, context, userId) {
+export async function _updateToken(tokenDoc, update, context, userId) {
   const hasX = foundry.utils.hasProperty(update, "x");
   const hasY = foundry.utils.hasProperty(update, "y");
   if (!hasX && !hasY) return;
 
+  await CanvasAnimation.getAnimation(tokenDoc.object.animationName).promise;
   const coords = { x: tokenDoc.x, y: tokenDoc.y };
   const previousCoords = foundry.utils.getProperty(context, `${MODULE}.coords.previous`);
+
   const { id: gmId } = game.users.find(user => {
     return user.active && user.isGM;
   }) ?? {};
