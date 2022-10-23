@@ -8,8 +8,8 @@ export function renderTemplateMacroConfig(templateDocument) {
  * Execute macros.
  * @param templateDoc The template document.
  * @param whenWhat    The trigger.
- * @param gmId        The first active GM found.
- * @param userId      The id of the user who moved a token or manipulated a template.
+ * @param context     Object with misc stuff, such as the id of the first active gm found,
+ *                    the id of the triggering user, and any other assorted coordinates.
  */
 export function callMacro(templateDoc, whenWhat, context) {
   const script = templateDoc.getFlag(MODULE, `${whenWhat}.command`);
