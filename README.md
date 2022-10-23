@@ -8,3 +8,7 @@ You can create macros in two ways:
 - click the icon in the header of an item that to create the Template Macros on the item. These macros are then copied to the template when it is created.
 
 Any template macro has four declared helper variables: `template` (the template itself), `scene` (the parent of the template), `token` (the token moving, if relevant), and `this`, which contains other useful data.
+
+The module contains some functions found in `game.modules.get("templatemacro").api`.
+- `findContainers(tokenDoc)` returns the TemplateDocument ids that contain a TokenDocument.
+- `findContained(templateDoc)` returns the TokenDocument ids that are contained within a TemplateDocument.
