@@ -96,6 +96,12 @@ export class TemplateMacroConfig extends MacroConfig {
   }
 
   async _updateObject(event, formData) {
+    for (const trigger of TRIGGERS) {
+      if (!formData[`flags.${MODULE}.${trigger}.command`]) {
+        delete formData[`flags.${MODULE}.${trigger}.command`];
+        delete formData[`flags.${MODULE}.${trigger}.asGM`];
+      }
+    }
     return this.object.update(formData);
   }
 }

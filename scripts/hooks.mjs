@@ -1,5 +1,5 @@
-import { MODULE } from "./scripts/constants.mjs";
-import { callMacro, findContainers, renderTemplateMacroConfig } from "./scripts/templatemacro.mjs";
+import { MODULE } from "./constants.mjs";
+import { callMacro, findContainers, renderTemplateMacroConfig } from "./templatemacro.mjs";
 
 // Create a button in a template's header.
 export function _createHeaderButton(config, buttons) {
@@ -41,4 +41,46 @@ export function _updateToken(tokenDoc, update, context, userId) {
     const templateDoc = tokenDoc.parent.templates.get(templateId);
     if (templateDoc) callMacro(templateDoc, "whenStaying", { gmId, userId });
   })
+}
+
+// update the template with macros from the item that created it.
+export function _preCreateTemplate(templateDoc, templateData, context, userId) {
+  const origin = templateDoc.getFlag("dnd5e", "origin");
+  if (!origin) return;
+  const item = fromUuidSync(origin);
+  if (!item) return;
+  const flagData = item.flags[MODULE] ?? {};
+  templateDoc.updateSource({ [`flags.${MODULE}`]: flagData });
+}
+
+// call whenCreated macros.
+export function _createTemplate(templateDoc, context, userId) {
+  const { id: gmId } = game.users.find(user => {
+    return user.active && user.isGM;
+  }) ?? {};
+  callMacro(templateDoc, "whenCreated", { gmId, userId });
+}
+
+// call whenDeleted macros.
+export function _deleteTemplate(templateDoc, context, userId) {
+  const { id: gmId } = game.users.find(user => {
+    return user.active && user.isGM;
+  }) ?? {};
+  callMacro(templateDoc, "whenDeleted", { gmId, userId });
+}
+
+// when hidden/revealed.
+export function _preUpdateTemplate(templateDoc, update, context, userId) {
+  foundry.utils.setProperty(context, `${MODULE}.wasHidden`, templateDoc.hidden);
+}
+export function _updateTemplate(templateDoc, update, context, userId) {
+  const wasHidden = foundry.utils.getProperty(context, `${MODULE}.wasHidden`);
+  const isHidden = templateDoc.hidden;
+  const hide = !wasHidden && isHidden;
+  const show = wasHidden && !isHidden;
+  const { id: gmId } = game.users.find(user => {
+    return user.active && user.isGM;
+  }) ?? {};
+  if (hide) callMacro(templateDoc, "whenHidden", { gmId, userId });
+  if (show) callMacro(templateDoc, "whenRevealed", { gmId, userId });
 }
