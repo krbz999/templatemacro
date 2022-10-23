@@ -1,11 +1,12 @@
 .templatemacro:not(.whenCreated) .form-group.stacked.command[data-type="whenCreated"],
 .templatemacro:not(.whenDeleted) .form-group.stacked.command[data-type="whenDeleted"],
+.templatemacro:not(.whenMoved) .form-group.stacked.command[data-type="whenMoved"],
 .templatemacro:not(.whenHidden) .form-group.stacked.command[data-type="whenHidden"],
 .templatemacro:not(.whenRevealed) .form-group.stacked.command[data-type="whenRevealed"],
 .templatemacro:not(.whenEntered) .form-group.stacked.command[data-type="whenEntered"],
 .templatemacro:not(.whenLeft) .form-group.stacked.command[data-type="whenLeft"],
 .templatemacro:not(.whenStaying) .form-group.stacked.command[data-type="whenStaying"],
-.templatemacro:not(.whenCreated, .whenDeleted, .whenHidden, .whenRevealed, .whenEntered, .whenLeft, .whenStaying) footer.sheet-footer.flexrow {
+.templatemacro:not(.whenCreated, .whenDeleted, .whenMoved, .whenHidden, .whenRevealed, .whenEntered, .whenLeft, .whenStaying) footer.sheet-footer.flexrow {
   display: none;
 }
 
@@ -32,6 +33,7 @@
 
 .templatemacro.whenCreated .triggers .trigger[data-type="whenCreated"],
 .templatemacro.whenDeleted .triggers .trigger[data-type="whenDeleted"],
+.templatemacro.whenMoved .triggers .trigger[data-type="whenMoved"],
 .templatemacro.whenHidden .triggers .trigger[data-type="whenHidden"],
 .templatemacro.whenRevealed .triggers .trigger[data-type="whenRevealed"],
 .templatemacro.whenEntered .triggers .trigger[data-type="whenEntered"],

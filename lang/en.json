@@ -2,6 +2,7 @@
   "TEMPLATEMACRO": {
     "whenCreated": "When Created",
     "whenDeleted": "When Deleted",
+    "whenMoved": "When Moved",
     "whenHidden": "When Hidden",
     "whenRevealed": "When Revealed",
     "whenEntered": "When Entered",

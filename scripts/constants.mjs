@@ -1,6 +1,6 @@
 export const MODULE = "templatemacro";
 export const TRIGGERS = [
-  "whenCreated", "whenDeleted",
+  "whenCreated", "whenDeleted", "whenMoved",
   "whenHidden", "whenRevealed",
   "whenEntered", "whenLeft", "whenStaying"
 ];

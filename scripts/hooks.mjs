@@ -13,10 +13,18 @@ export function _createHeaderButton(config, buttons) {
 // save previous state of templates containing tokenDoc.
 export function _preUpdateToken(tokenDoc, update, context, userId) {
   foundry.utils.setProperty(context, `${MODULE}.wasIn`, findContainers(tokenDoc));
+  const coords = { x: tokenDoc.x, y: tokenDoc.y };
+  foundry.utils.setProperty(context, `${MODULE}.coords.previous`, coords);
 }
 
 // find those you entered and left.
 export function _updateToken(tokenDoc, update, context, userId) {
+  const hasX = foundry.utils.hasProperty(update, "x");
+  const hasY = foundry.utils.hasProperty(update, "y");
+  if (!hasX && !hasY) return;
+
+  const coords = { x: tokenDoc.x, y: tokenDoc.y };
+  const previousCoords = foundry.utils.getProperty(context, `${MODULE}.coords.previous`);
   const { id: gmId } = game.users.find(user => {
     return user.active && user.isGM;
   }) ?? {};
@@ -28,18 +36,26 @@ export function _updateToken(tokenDoc, update, context, userId) {
   const entering = current.filter(p => !previous.includes(p));
   const staying = previous.filter(p => current.includes(p));
 
+  const tokenId = tokenDoc.id;
+  const macroContext = {
+    gmId, userId, tokenId, coords: {
+      previous: previousCoords,
+      current: coords
+    }
+  }
+
   // call macros:
   leaving.map(templateId => {
     const templateDoc = tokenDoc.parent.templates.get(templateId);
-    if (templateDoc) callMacro(templateDoc, "whenLeft", { gmId, userId });
+    if (templateDoc) callMacro(templateDoc, "whenLeft", macroContext);
   });
   entering.map(templateId => {
     const templateDoc = tokenDoc.parent.templates.get(templateId);
-    if (templateDoc) callMacro(templateDoc, "whenEntered", { gmId, userId });
+    if (templateDoc) callMacro(templateDoc, "whenEntered", macroContext);
   });
   staying.map(templateId => {
     const templateDoc = tokenDoc.parent.templates.get(templateId);
-    if (templateDoc) callMacro(templateDoc, "whenStaying", { gmId, userId });
+    if (templateDoc) callMacro(templateDoc, "whenStaying", macroContext);
   })
 }
 
@@ -58,7 +74,9 @@ export function _createTemplate(templateDoc, context, userId) {
   const { id: gmId } = game.users.find(user => {
     return user.active && user.isGM;
   }) ?? {};
-  callMacro(templateDoc, "whenCreated", { gmId, userId });
+  const current = { x: templateDoc.x, y: templateDoc.y };
+  const macroContext = { gmId, userId, coords: { previous: null, current } };
+  callMacro(templateDoc, "whenCreated", macroContext);
 }
 
 // call whenDeleted macros.
@@ -66,21 +84,36 @@ export function _deleteTemplate(templateDoc, context, userId) {
   const { id: gmId } = game.users.find(user => {
     return user.active && user.isGM;
   }) ?? {};
-  callMacro(templateDoc, "whenDeleted", { gmId, userId });
+  const current = { x: templateDoc.x, y: templateDoc.y };
+  const macroContext = { gmId, userId, coords: { previous: null, current } };
+  callMacro(templateDoc, "whenDeleted", macroContext);
 }
 
-// when hidden/revealed.
+// when hidden/revealed or moved.
 export function _preUpdateTemplate(templateDoc, update, context, userId) {
   foundry.utils.setProperty(context, `${MODULE}.wasHidden`, templateDoc.hidden);
+  const coords = { x: templateDoc.x, y: templateDoc.y };
+  foundry.utils.setProperty(context, `${MODULE}.coords.previous`, coords);
+
 }
 export function _updateTemplate(templateDoc, update, context, userId) {
   const wasHidden = foundry.utils.getProperty(context, `${MODULE}.wasHidden`);
   const isHidden = templateDoc.hidden;
   const hide = !wasHidden && isHidden;
   const show = wasHidden && !isHidden;
+
+  // has been moved?
+  const previous = foundry.utils.getProperty(context, `${MODULE}.coords.previous`);
+  const current = { x: templateDoc.x, y: templateDoc.y };
+  const hasX = foundry.utils.hasProperty(update, "x");
+  const hasY = foundry.utils.hasProperty(update, "y");
+  const moved = hasX || hasY;
+
   const { id: gmId } = game.users.find(user => {
     return user.active && user.isGM;
   }) ?? {};
-  if (hide) callMacro(templateDoc, "whenHidden", { gmId, userId });
-  if (show) callMacro(templateDoc, "whenRevealed", { gmId, userId });
+  const macroContext = { gmId, userId, coords: { previous, current } };
+  if (hide) callMacro(templateDoc, "whenHidden", macroContext);
+  if (show) callMacro(templateDoc, "whenRevealed", macroContext);
+  if (moved) callMacro(templateDoc, "whenMoved", macroContext);
 }

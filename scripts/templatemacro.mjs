@@ -11,7 +11,7 @@ export function renderTemplateMacroConfig(templateDocument) {
  * @param gmId        The first active GM found.
  * @param userId      The id of the user who moved a token or manipulated a template.
  */
-export function callMacro(templateDoc, whenWhat, { gmId, userId }) {
+export function callMacro(templateDoc, whenWhat, context) {
   const script = templateDoc.getFlag(MODULE, `${whenWhat}.command`);
   const asGM = templateDoc.getFlag(MODULE, `${whenWhat}.asGM`);
   if (!script) return;
@@ -19,14 +19,18 @@ export function callMacro(templateDoc, whenWhat, { gmId, userId }) {
     ${script}
   })();`;
 
-  const id = asGM ? gmId : userId;
+  const id = asGM ? context.gmId : context.userId;
   if (game.user.id !== id) return;
-  const fn = Function("template", "scene", body);
-  fn.call({}, templateDoc.object, templateDoc.parent);
+  const fn = Function("template", "scene", "token", body);
+
+  const template = templateDoc.object;
+  const scene = templateDoc.parent;
+  const token = scene.tokens.get(context.tokenId)?.object ?? null;
+  fn.call(context, template, scene, token);
 }
 
 /**
- * Returns the templateDocuments that contain a tokenDocument.
+ * Returns the templateDocument ids that contain a tokenDocument.
  */
 export function findContainers(tokenDoc) {
   const { size } = tokenDoc.parent.grid;
@@ -52,6 +56,35 @@ export function findContainers(tokenDoc) {
     }
   }
   return containers;
+}
+
+/**
+ * Returns the tokenDocument ids that are contained within a templateDocument.
+ */
+export function findContained(templateDoc) {
+  const { size } = templateDoc.parent.grid;
+  const { x: tempx, y: tempy, object } = templateDoc;
+  const tokenDocs = templateDoc.parent.tokens;
+  const contained = [];
+  for (const tokenDoc of tokenDocs) {
+    const { width, height, x: tokx, y: toky } = tokenDoc;
+    const startX = width >= 1 ? 0.5 : width / 2;
+    const startY = height >= 1 ? 0.5 : height / 2;
+    for (let x = startX; x < width; x++) {
+      for (let y = startY; y < width; y++) {
+        const curr = {
+          x: tokx + x * size - tempx,
+          y: toky + y * size - tempy
+        };
+        const contains = object.shape.contains(curr.x, curr.y);
+        if (contains) {
+          contained.push(tokenDoc.id);
+          continue;
+        }
+      }
+    }
+  }
+  return contained;
 }
 
 export class TemplateMacroConfig extends MacroConfig {
@@ -100,6 +133,7 @@ export class TemplateMacroConfig extends MacroConfig {
       if (!formData[`flags.${MODULE}.${trigger}.command`]) {
         delete formData[`flags.${MODULE}.${trigger}.command`];
         delete formData[`flags.${MODULE}.${trigger}.asGM`];
+        formData[`flags.${MODULE}.-=${trigger}`] = null;
       }
     }
     return this.object.update(formData);
