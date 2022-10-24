@@ -21,6 +21,7 @@ export function callMacro(templateDoc, whenWhat, context) {
 
   const id = asGM ? context.gmId : context.userId;
   if (game.user.id !== id) return;
+  templateDoc.object._refresh();
   const fn = Function("template", "scene", "token", body);
 
   const template = templateDoc.object;
