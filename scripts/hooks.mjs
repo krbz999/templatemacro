@@ -24,7 +24,7 @@ export async function _updateToken(tokenDoc, update, context, userId) {
   const hasY = foundry.utils.hasProperty(update, "y");
   if (!hasX && !hasY) return;
 
-  await CanvasAnimation.getAnimation(tokenDoc.object.animationName).promise;
+  await CanvasAnimation.getAnimation(tokenDoc.object.animationName)?.promise;
   const coords = { x: tokenDoc.x, y: tokenDoc.y };
   const previousCoords = foundry.utils.getProperty(context, `${MODULE}.coords.previous`);
 
@@ -42,10 +42,12 @@ export async function _updateToken(tokenDoc, update, context, userId) {
   const tokenId = tokenDoc.id;
   const macroContext = {
     gmId, userId, tokenId, coords: {
-      previous: previousCoords,
+      previous: foundry.utils.duplicate(previousCoords),
       current: coords
-    }
+    },
+    hook: context
   }
+  delete context[MODULE];
 
   // call macros:
   leaving.map(templateId => {
