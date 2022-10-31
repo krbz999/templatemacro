@@ -1,5 +1,6 @@
+import { findContainers, findGrids } from "./api.mjs";
 import { INVALID_TYPES, MODULE } from "./constants.mjs";
-import { callMacro, findContainers, renderTemplateMacroConfig } from "./templatemacro.mjs";
+import { callMacro, renderTemplateMacroConfig } from "./templatemacro.mjs";
 
 // Create a button in a template's header.
 export function _createHeaderButton(config, buttons) {
@@ -34,10 +35,18 @@ export async function _updateToken(tokenDoc, update, context, userId) {
   // those you are in now and were in before (and might still be in).
   const current = findContainers(tokenDoc);
   const previous = foundry.utils.getProperty(context, `${MODULE}.wasIn`) ?? [];
-  // those you have left, those you have entered, and those you stayed in.
+  // those you have left, have entered, and have stayed in.
   const leaving = previous.filter(p => !current.includes(p));
   const entering = current.filter(p => !previous.includes(p));
   const staying = previous.filter(p => current.includes(p));
+  // mapping of all grid cells (within templates) you moved through.
+  const through = tokenDoc.parent.templates.map(templateDoc => {
+    return {
+      templateId: templateDoc.id,
+      cells: findGrids(previousCoords, coords, templateDoc)
+    };
+  }).filter(({cells}) => cells.length > 0);
+  foundry.utils.setProperty(context, `${MODULE}.through`, through);
 
   const tokenId = tokenDoc.id;
   const macroContext = {
@@ -47,7 +56,6 @@ export async function _updateToken(tokenDoc, update, context, userId) {
     },
     hook: context
   }
-  delete context[MODULE];
 
   // call macros:
   leaving.map(templateId => {

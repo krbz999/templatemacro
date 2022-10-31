@@ -30,64 +30,6 @@ export function callMacro(templateDoc, whenWhat, context) {
   fn.call(context, template, scene, token);
 }
 
-/**
- * Returns the templateDocument ids that contain a tokenDocument.
- */
-export function findContainers(tokenDoc) {
-  const { size } = tokenDoc.parent.grid;
-  const { width, height, x: tokx, y: toky } = tokenDoc;
-  const templateDocs = tokenDoc.parent.templates;
-  const containers = [];
-  for (const templateDoc of templateDocs) {
-    const { x: tempx, y: tempy, object } = templateDoc;
-    const startX = width >= 1 ? 0.5 : width / 2;
-    const startY = height >= 1 ? 0.5 : height / 2;
-    for (let x = startX; x < width; x++) {
-      for (let y = startY; y < width; y++) {
-        const curr = {
-          x: tokx + x * size - tempx,
-          y: toky + y * size - tempy
-        };
-        const contains = object.shape.contains(curr.x, curr.y);
-        if (contains) {
-          containers.push(templateDoc.id);
-          continue;
-        }
-      }
-    }
-  }
-  return containers;
-}
-
-/**
- * Returns the tokenDocument ids that are contained within a templateDocument.
- */
-export function findContained(templateDoc) {
-  const { size } = templateDoc.parent.grid;
-  const { x: tempx, y: tempy, object } = templateDoc;
-  const tokenDocs = templateDoc.parent.tokens;
-  const contained = [];
-  for (const tokenDoc of tokenDocs) {
-    const { width, height, x: tokx, y: toky } = tokenDoc;
-    const startX = width >= 1 ? 0.5 : width / 2;
-    const startY = height >= 1 ? 0.5 : height / 2;
-    for (let x = startX; x < width; x++) {
-      for (let y = startY; y < width; y++) {
-        const curr = {
-          x: tokx + x * size - tempx,
-          y: toky + y * size - tempy
-        };
-        const contains = object.shape.contains(curr.x, curr.y);
-        if (contains) {
-          contained.push(tokenDoc.id);
-          continue;
-        }
-      }
-    }
-  }
-  return contained;
-}
-
 export class TemplateMacroConfig extends MacroConfig {
   constructor(templateDocument, options) {
     super(templateDocument, options);
@@ -101,7 +43,7 @@ export class TemplateMacroConfig extends MacroConfig {
   }
 
   get id() {
-    return `templatemacro-${this.object.id}`;
+    return `${MODULE}-${this.object.id}`;
   }
 
   activateListeners(html) {

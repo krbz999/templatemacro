@@ -1,3 +1,8 @@
+import {
+  findGrids,
+  findContained,
+  findContainers
+} from "./scripts/api.mjs";
 import { MODULE } from "./scripts/constants.mjs";
 import {
   _createHeaderButton,
@@ -9,12 +14,12 @@ import {
   _updateTemplate,
   _updateToken
 } from "./scripts/hooks.mjs";
-import { findContained, findContainers } from "./scripts/templatemacro.mjs";
 
 Hooks.once("setup", () => {
   game.modules.get(MODULE).api = {
     findContainers,
-    findContained
+    findContained,
+    findGrids
   }
 })
 
