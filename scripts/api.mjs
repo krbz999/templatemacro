@@ -3,7 +3,9 @@
  * that are on the direct path between the two points.
  */
 export function findGrids(A, B, templateDoc) {
-  const ray = new Ray(A, B);
+  const a = canvas.grid.getCenter(A.x, A.y);
+  const b = canvas.grid.getCenter(B.x, B.y)
+  const ray = new Ray({ x: a[0], y: a[1] }, { x: b[0], y: b[1] });
   if (ray.distance === 0) return [];
 
   const scene = templateDoc.parent;
