@@ -21,13 +21,13 @@ export function callMacro(templateDoc, whenWhat, context) {
 
   const id = asGM ? context.gmId : context.userId;
   if (game.user.id !== id) return;
-  templateDoc.object._refresh();
+  templateDoc.object?._refresh();
   const fn = Function("template", "scene", "token", body);
 
-  const template = templateDoc.object;
+  //const template = templateDoc.object;
   const scene = templateDoc.parent;
   const token = scene.tokens.get(context.tokenId)?.object ?? null;
-  fn.call(context, template, scene, token);
+  fn.call(context, templateDoc, scene, token);
 }
 
 export class TemplateMacroConfig extends MacroConfig {

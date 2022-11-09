@@ -4,7 +4,7 @@ import { callMacro, renderTemplateMacroConfig } from "./templatemacro.mjs";
 
 // Create a button in a template's header.
 export function _createHeaderButton(config, buttons) {
-  if(config.object instanceof Item && !config.object.hasAreaTarget) return
+  if (config.object instanceof Item && !config.object.hasAreaTarget) return
   buttons.unshift({
     class: MODULE,
     icon: "fa-solid fa-ruler-combined",
@@ -45,7 +45,7 @@ export async function _updateToken(tokenDoc, update, context, userId) {
       templateId: templateDoc.id,
       cells: findGrids(previousCoords, coords, templateDoc)
     };
-  }).filter(({cells}) => cells.length > 0);
+  }).filter(({ cells }) => cells.length > 0);
   foundry.utils.setProperty(context, `${MODULE}.through`, through);
 
   const tokenId = tokenDoc.id;
