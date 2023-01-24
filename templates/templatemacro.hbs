@@ -5,30 +5,30 @@
     </h1>
   </header>
 
-  <!-- temporary fix for monaco editor -->
-  <div class="form-group" style="display: none;">
-    <select name="type" disabled></select>
-  </div>
+  <!-- navigation -->
+  <nav class="sheet-tabs tabs" aria-role="Form Tab Navigation">
+    {{#each triggers as |trigger|}}
+    <a class="trigger" data-tab="{{trigger.type}}">{{trigger.label}}</a>
+    {{/each}}
+  </nav>
 
   <!-- tabs -->
-  <ul class="triggers">
+  <div class="content-tabs">
     {{#each triggers as |trigger|}}
-    <li class="trigger" data-type="{{trigger.type}}">{{trigger.label}}</li>
-    {{/each}}
-  </ul>
-
-  {{#each triggers as |trigger|}}
-  <div class="form-group stacked command" data-type="{{trigger.type}}">
-    <div class="command-line">
-      <label>{{localize "Command"}}</label>
-      <div class="as-gm">
-        <label>{{localize "TEMPLATEMACRO.AS_GM"}}</label>
-        <input type="checkbox" name="flags.templatemacro.{{trigger.type}}.asGM" {{checked trigger.asGM}}>
+    <div class="tab" data-tab="{{trigger.type}}">
+      <div class="form-group stacked command" data-type="{{trigger.type}}">
+        <div class="command-line">
+          <label>{{localize "Command"}}</label>
+          <div class="as-gm">
+            <label>{{localize "TEMPLATEMACRO.AS_GM"}}</label>
+            <input type="checkbox" name="flags.templatemacro.{{trigger.type}}.asGM" {{checked trigger.asGM}}>
+          </div>
+        </div>
+        <textarea name="flags.templatemacro.{{trigger.type}}.command">{{trigger.command}}</textarea>
       </div>
     </div>
-    <textarea name="flags.templatemacro.{{trigger.type}}.command">{{trigger.command}}</textarea>
+    {{/each}}
   </div>
-  {{/each}}
 
   <footer class="sheet-footer flexrow">
     <button type="submit">

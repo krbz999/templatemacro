@@ -1,27 +1,10 @@
-.templatemacro:not(.whenCreated) .form-group.stacked.command[data-type="whenCreated"],
-.templatemacro:not(.whenDeleted) .form-group.stacked.command[data-type="whenDeleted"],
-.templatemacro:not(.whenMoved) .form-group.stacked.command[data-type="whenMoved"],
-.templatemacro:not(.whenHidden) .form-group.stacked.command[data-type="whenHidden"],
-.templatemacro:not(.whenRevealed) .form-group.stacked.command[data-type="whenRevealed"],
-.templatemacro:not(.whenEntered) .form-group.stacked.command[data-type="whenEntered"],
-.templatemacro:not(.whenLeft) .form-group.stacked.command[data-type="whenLeft"],
-.templatemacro:not(.whenStaying) .form-group.stacked.command[data-type="whenStaying"],
-.templatemacro:not(.whenCreated, .whenDeleted, .whenMoved, .whenHidden, .whenRevealed, .whenEntered, .whenLeft, .whenStaying) footer.sheet-footer.flexrow {
-  display: none;
+.macro-sheet.sheet .templatemacro > .content-tabs {
+  flex: 1;
 }
 
-.templatemacro .triggers {
-  display: inline-flex;
-  list-style-type: none;
-  gap: 0.5em;
-  justify-content: space-around;
-  padding: 0;
-  text-align: center;
-}
-
-.templatemacro .triggers .trigger {
-  font-family: "Modesto Condensed";
-  font-size: 25px;
+.macro-sheet.sheet .templatemacro .tab[data-tab],
+.macro-sheet.sheet .templatemacro .tab[data-tab] > .form-group {
+  height: calc(100% - 5px);
 }
 
 .templatemacro .command-line,
@@ -31,14 +14,10 @@
   align-items: center;
 }
 
-.templatemacro.whenCreated .triggers .trigger[data-type="whenCreated"],
-.templatemacro.whenDeleted .triggers .trigger[data-type="whenDeleted"],
-.templatemacro.whenMoved .triggers .trigger[data-type="whenMoved"],
-.templatemacro.whenHidden .triggers .trigger[data-type="whenHidden"],
-.templatemacro.whenRevealed .triggers .trigger[data-type="whenRevealed"],
-.templatemacro.whenEntered .triggers .trigger[data-type="whenEntered"],
-.templatemacro.whenLeft .triggers .trigger[data-type="whenLeft"],
-.templatemacro.whenStaying .triggers .trigger[data-type="whenStaying"],
-.templatemacro .triggers .trigger:hover {
+form.templatemacro > nav.sheet-tabs.tabs {
+  text-align: center;
+}
+
+form.templatemacro > nav.sheet-tabs.tabs > .active {
   text-shadow: 0 0 14px red;
 }

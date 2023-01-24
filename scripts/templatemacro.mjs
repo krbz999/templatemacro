@@ -20,7 +20,7 @@ export function callMacro(templateDoc, whenWhat, context) {
   })();`;
 
   const id = asGM ? context.gmId : context.userId;
-  if (game.user.id !== id) return;
+  if (game.user.id !== id && !!id) return;
   templateDoc.object?._refresh();
   const fn = Function("template", "scene", "token", body);
 
@@ -38,23 +38,15 @@ export class TemplateMacroConfig extends MacroConfig {
   static get defaultOptions() {
     return foundry.utils.mergeObject(super.defaultOptions, {
       template: "modules/templatemacro/templates/templatemacro.hbs",
-      classes: ["macro-sheet", "sheet"]
+      classes: ["macro-sheet", "sheet", MODULE],
+      tabs: [{ navSelector: ".tabs", contentSelector: ".content-tabs", initial: "whenCreated" }],
+      width: 600,
+      height: 600
     });
   }
 
   get id() {
     return `${MODULE}-${this.object.id}`;
-  }
-
-  activateListeners(html) {
-    html[0].addEventListener("click", (event) => {
-      const trigger = event.target.closest(".templatemacro .triggers .trigger");
-      if (!trigger) return;
-      const type = trigger.dataset.type;
-      const form = trigger.closest("form");
-      form.classList.remove(...TRIGGERS.filter(t => t !== type));
-      form.classList.add(type);
-    });
   }
 
   async getData() {
