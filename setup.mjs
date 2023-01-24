@@ -14,12 +14,17 @@ import {
   _updateTemplate,
   _updateToken
 } from "./scripts/hooks.mjs";
+import { callMacro } from "./scripts/templatemacro.mjs";
 
 Hooks.once("setup", () => {
   game.modules.get(MODULE).api = {
     findContainers,
     findContained,
     findGrids
+  };
+
+  MeasuredTemplateDocument.prototype.callMacro = async function(type = "never", options = {}) {
+    return callMacro(this, type, options);
   }
 })
 

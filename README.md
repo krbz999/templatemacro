@@ -13,3 +13,5 @@ The module contains some functions found in `game.modules.get("templatemacro").a
 - `findContainers(tokenDoc)` returns the MeasuredTemplateDocument ids that contain a TokenDocument.
 - `findContained(templateDoc)` returns the TokenDocument ids that are contained within a MeasuredTemplateDocument.
 - `findGrids(A, B, templateDoc)` returns the grid cells between the two coordinates that are within a MeasuredTemplateDocument.
+
+Additionally, the `MeasuredTemplateDocument` now has the function `callMacro(type="never", options={})`, which executes the appropriate embedded script, if it exists. The types are: "whenCreated", "whenDeleted", "whenMoved", "whenHidden", "whenRevealed", "whenEntered", "whenLeft", "whenStaying", "never", the last being a placeholder script meant for manual execution only.

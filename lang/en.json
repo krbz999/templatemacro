@@ -1,13 +1,12 @@
 {
-  "TEMPLATEMACRO": {
-    "whenCreated": "When Created",
-    "whenDeleted": "When Deleted",
-    "whenMoved": "When Moved",
-    "whenHidden": "When Hidden",
-    "whenRevealed": "When Revealed",
-    "whenEntered": "When Entered",
-    "whenLeft": "When Left",
-    "whenStaying": "When Staying",
-    "AS_GM": "Execute as GM:"
-  }
+  "TEMPLATEMACRO.whenCreated": "When Created",
+  "TEMPLATEMACRO.whenDeleted": "When Deleted",
+  "TEMPLATEMACRO.whenMoved": "When Moved",
+  "TEMPLATEMACRO.whenHidden": "When Hidden",
+  "TEMPLATEMACRO.whenRevealed": "When Revealed",
+  "TEMPLATEMACRO.whenEntered": "When Entered",
+  "TEMPLATEMACRO.whenLeft": "When Left",
+  "TEMPLATEMACRO.whenStaying": "When Staying",
+  "TEMPLATEMACRO.never": "Never Automatically",
+  "TEMPLATEMACRO.AS_GM": "Execute as GM:"
 }
