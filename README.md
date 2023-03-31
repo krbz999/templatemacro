@@ -1,7 +1,9 @@
 # Template Macro
 You can use this module to trigger macros on certain events related to Measured Templates. The events include:
-- when a template is created, deleted, moved, hidden, or revealed.
-- when a token enters the area of a template, leaves the area, or moves within the area.
+- when a template is created ("whenCreated"), deleted ("whenDeleted"), moved ("whenMoved"), hidden ("whenHidden"), or revealed ("whenRevealed").
+- when a token enters the area of a template ("whenEntered"), leaves the area ("whenLeaving"), or moves within the area ("whenStaying").
+- when a token moves from outside a template, through it, and ends their movement outside of it ("whenThrough").
+- when a token starts its turn in combat within a template ("whenTurnStart") or ends its turn in combat within a template ("whenTurnEnd").
 
 You can create macros in two ways:
 - place a template and open its config, then click the icon in the header.
@@ -14,4 +16,4 @@ The module contains some functions found in `game.modules.get("templatemacro").a
 - `findContained(templateDoc)` returns the TokenDocument ids that are contained within a MeasuredTemplateDocument.
 - `findGrids(A, B, templateDoc)` returns the grid cells between the two coordinates that are within a MeasuredTemplateDocument.
 
-Additionally, the `MeasuredTemplateDocument` now has the function `callMacro(type="never", options={})`, which executes the appropriate embedded script, if it exists. The types are: "whenCreated", "whenDeleted", "whenMoved", "whenHidden", "whenRevealed", "whenEntered", "whenLeft", "whenStaying", "never", the last being a placeholder script meant for manual execution only.
+Additionally, the `MeasuredTemplateDocument` now has the function `callMacro(type="never", options={})`, which executes the appropriate embedded script, if it exists. The types are: "whenCreated", "whenDeleted", "whenMoved", "whenHidden", "whenRevealed", "whenEntered", "whenLeft", "whenThrough", "whenStaying", "whenTurnStart", "whenTurnEnd", "never", the last being a placeholder script meant for manual execution only.
