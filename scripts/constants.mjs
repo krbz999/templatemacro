@@ -7,6 +7,9 @@ export const TRIGGERS = [
   "whenRevealed",
   "whenEntered",
   "whenLeft",
+  "whenThrough",
   "whenStaying",
+  "whenTurnStart",
+  "whenTurnEnd",
   "never"
 ];
