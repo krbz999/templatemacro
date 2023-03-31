@@ -1,10 +1,25 @@
-.macro-sheet.sheet .templatemacro > .content-tabs {
+.templatemacro .content-tabs {
   flex: 1;
 }
 
-.macro-sheet.sheet .templatemacro .tab[data-tab],
-.macro-sheet.sheet .templatemacro .tab[data-tab] > .form-group {
+.templatemacro .trigger {
+  display: flex;
+  flex-direction: column;
+}
+
+.templatemacro .trigger.has:after {
+  content: "\f121";
+  font-family: "Font Awesome 6 Pro";
+  font-weight: 900;
+}
+
+.templatemacro .tab[data-tab],
+.templatemacro .tab[data-tab] .form-group {
   height: calc(100% - 5px);
+}
+
+.templatemacro .description {
+  font-style: italic;
 }
 
 .templatemacro .command-line,
@@ -14,10 +29,14 @@
   align-items: center;
 }
 
-form.templatemacro > nav.sheet-tabs.tabs {
+.templatemacro nav.sheet-tabs.tabs {
   text-align: center;
 }
 
-form.templatemacro > nav.sheet-tabs.tabs > .active {
+.templatemacro nav.sheet-tabs.tabs .active {
   text-shadow: 0 0 14px red;
+}
+
+.templatemacro.macro-sheet .form-group.command textarea {
+  height: calc(100% - 40px);
 }

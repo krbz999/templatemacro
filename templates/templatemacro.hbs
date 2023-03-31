@@ -1,14 +1,12 @@
-<form class="editable flexcol templatemacro" autocomplete="off">
+<form class="editable flexcol" autocomplete="off">
   <header class="sheet-header">
-    <h1>
-      <input name="name" type="text" value="{{name}}" disabled>
-    </h1>
+    <h1><input name="name" type="text" value="{{name}}" disabled></h1>
   </header>
 
   <!-- navigation -->
   <nav class="sheet-tabs tabs" aria-role="Form Tab Navigation">
     {{#each triggers as |trigger|}}
-    <a class="trigger" data-tab="{{trigger.type}}">{{trigger.label}}</a>
+    <a class="trigger {{#if trigger.has}}has{{/if}}" data-tab="{{trigger.type}}">{{localize trigger.label}}</a>
     {{/each}}
   </nav>
 
@@ -17,10 +15,11 @@
     {{#each triggers as |trigger|}}
     <div class="tab" data-tab="{{trigger.type}}">
       <div class="form-group stacked command" data-type="{{trigger.type}}">
+        <div class="description">{{localize trigger.desc}}</div>
         <div class="command-line">
           <label>{{localize "Command"}}</label>
           <div class="as-gm">
-            <label>{{localize "TEMPLATEMACRO.AS_GM"}}</label>
+            <label data-tooltip="TEMPLATEMACRO.AsGMTooltip">{{localize "TEMPLATEMACRO.AS_GM"}}</label>
             <input type="checkbox" name="flags.templatemacro.{{trigger.type}}.asGM" {{checked trigger.asGM}}>
           </div>
         </div>
