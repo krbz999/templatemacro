@@ -4,11 +4,11 @@ import {_getFirstOwnerId, callMacro, renderTemplateMacroConfig} from "./template
 
 // Create a button in a template's header.
 export function _createHeaderButton(config, buttons) {
-  if ((config.object instanceof Item) && !config.object.hasAreaTarget) return
+  if ((config.document instanceof Item) && !config.document.hasAreaTarget) return;
   buttons.unshift({
     class: MODULE,
     icon: "fa-solid fa-ruler-combined",
-    onclick: () => renderTemplateMacroConfig(config.object)
+    onclick: () => renderTemplateMacroConfig(config.document)
   });
 }
 
@@ -40,12 +40,12 @@ export async function _updateToken(tokenDoc, update, context, userId) {
   const entering = current.filter(p => !previous.includes(p));
   const staying = previous.filter(p => current.includes(p));
   // mapping of all grid cells (within templates) you moved through.
-  const through = tokenDoc.parent.templates.map(templateDoc => {
-    return {
-      templateId: templateDoc.id,
-      cells: findGrids(previousCoords, coords, templateDoc)
-    };
-  }).filter(({cells}) => cells.length > 0);
+  const through = tokenDoc.parent.templates.reduce((acc, templateDoc) => {
+    const cells = findGrids(previousCoords, coords, templateDoc);
+    if (!cells.length) return acc;
+    acc.push({templateId: templateDoc.id, cells});
+    return acc;
+  }, []);
   foundry.utils.setProperty(context, `${MODULE}.through`, through);
 
   // Those you stayed outside of and moved through and ended outside of.
@@ -56,14 +56,14 @@ export async function _updateToken(tokenDoc, update, context, userId) {
   const tokenId = tokenDoc.id;
   const macroContext = {
     gmId, userId, tokenId, coords: {
-      previous: foundry.utils.duplicate(previousCoords),
+      previous: foundry.utils.deepClone(previousCoords),
       current: coords
     },
     hook: context
-  }
+  };
 
   // call macros:
-  const call = (id, trigger) => {
+  function call(id, trigger) {
     const templateDoc = tokenDoc.parent.templates.get(id);
     if (templateDoc) callMacro(templateDoc, trigger, macroContext);
   }
@@ -71,14 +71,11 @@ export async function _updateToken(tokenDoc, update, context, userId) {
   leaving.forEach(templateId => call(templateId, "whenLeft"));
   entering.forEach(templateId => call(templateId, "whenEntered"));
   staying.forEach(templateId => call(templateId, "whenStaying"));
-
 }
 
 // update the template with macros from the item that created it (dnd5e).
 export function _preCreateTemplate(templateDoc, templateData, context, userId) {
-  const origin = templateDoc.getFlag("dnd5e", "origin");
-  if (!origin) return;
-  const item = fromUuidSync(origin);
+  const item = fromUuidSync(templateDoc.flags.dnd5e?.origin || "");
   if (!item) return;
   const flagData = item.flags[MODULE] ?? {};
   templateDoc.updateSource({[`flags.${MODULE}`]: flagData});

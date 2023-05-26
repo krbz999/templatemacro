@@ -22,7 +22,7 @@ export function callMacro(templateDoc, whenWhat, context) {
 
   const id = asGM ? context.gmId : context.userId;
   if (game.user.id !== id) return;
-  templateDoc.object?._refresh();
+  templateDoc.object?.refresh();
   const fn = Function("template", "scene", "token", body);
 
   //const template = templateDoc.object;
@@ -54,7 +54,7 @@ export class TemplateMacroConfig extends MacroConfig {
       template: "modules/templatemacro/templates/templatemacro.hbs",
       classes: ["macro-sheet", "sheet", MODULE],
       tabs: [{navSelector: ".tabs", contentSelector: ".content-tabs"}],
-      width: 600,
+      width: 700,
       height: 600
     });
   }
@@ -76,7 +76,7 @@ export class TemplateMacroConfig extends MacroConfig {
         label: `TEMPLATEMACRO.${trigger}`,
         desc: `TEMPLATEMACRO.${trigger}Desc`,
         has: !!flag[trigger]?.command
-      }
+      };
     });
     return data;
   }

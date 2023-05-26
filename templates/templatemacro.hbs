@@ -5,25 +5,25 @@
 
   <!-- navigation -->
   <nav class="sheet-tabs tabs" aria-role="Form Tab Navigation">
-    {{#each triggers as |trigger|}}
-    <a class="trigger {{#if trigger.has}}has{{/if}}" data-tab="{{trigger.type}}">{{localize trigger.label}}</a>
+    {{#each triggers}}
+    <a class="trigger {{#if has}}has{{/if}}" data-tab="{{type}}">{{localize label}}</a>
     {{/each}}
   </nav>
 
   <!-- tabs -->
   <div class="content-tabs">
-    {{#each triggers as |trigger|}}
-    <div class="tab" data-tab="{{trigger.type}}">
-      <div class="form-group stacked command" data-type="{{trigger.type}}">
-        <div class="description">{{localize trigger.desc}}</div>
+    {{#each triggers}}
+    <div class="tab" data-tab="{{type}}">
+      <div class="form-group stacked command" data-type="{{type}}">
+        <div class="description">{{localize desc}}</div>
         <div class="command-line">
           <label>{{localize "Command"}}</label>
           <div class="as-gm">
             <label data-tooltip="TEMPLATEMACRO.AsGMTooltip">{{localize "TEMPLATEMACRO.AS_GM"}}</label>
-            <input type="checkbox" name="flags.templatemacro.{{trigger.type}}.asGM" {{checked trigger.asGM}}>
+            <input type="checkbox" name="flags.templatemacro.{{type}}.asGM" {{checked asGM}}>
           </div>
         </div>
-        <textarea name="flags.templatemacro.{{trigger.type}}.command">{{trigger.command}}</textarea>
+        <textarea name="flags.templatemacro.{{type}}.command">{{command}}</textarea>
       </div>
     </div>
     {{/each}}

@@ -1,3 +1,7 @@
+.templatemacro.macro-sheet {
+  min-width: 700px;
+}
+
 .templatemacro .content-tabs {
   flex: 1;
 }
