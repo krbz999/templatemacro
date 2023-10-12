@@ -26,6 +26,8 @@ Hooks.once("setup", () => {
   };
 
   MeasuredTemplateDocument.prototype.callMacro = async function(type = "never", options = {}) {
+    options.userId ??= game.user.id;
+    options.gmId ??= game.users.find(u => u.active && u.isGM)?.id;
     return callMacro(this, type, options);
   }
   if (game.system.id === "dnd5e") {

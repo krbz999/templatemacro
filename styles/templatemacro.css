@@ -1,46 +1,37 @@
 .templatemacro.macro-sheet {
   min-width: 700px;
 }
-
 .templatemacro .content-tabs {
   flex: 1;
 }
-
 .templatemacro .trigger {
   display: flex;
   flex-direction: column;
 }
-
 .templatemacro .trigger.has:after {
   content: "\f121";
   font-family: "Font Awesome 6 Pro";
   font-weight: 900;
 }
-
 .templatemacro .tab[data-tab],
 .templatemacro .tab[data-tab] .form-group {
   height: calc(100% - 5px);
 }
-
 .templatemacro .description {
   font-style: italic;
 }
-
 .templatemacro .command-line,
 .templatemacro .as-gm {
   display: flex;
   justify-content: space-between;
   align-items: center;
 }
-
 .templatemacro nav.sheet-tabs.tabs {
   text-align: center;
 }
-
 .templatemacro nav.sheet-tabs.tabs .active {
   text-shadow: 0 0 14px red;
 }
-
 .templatemacro.macro-sheet .form-group.command textarea {
   height: calc(100% - 40px);
 }
