@@ -1,3 +1,5 @@
+Interested in following along with development of any of my modules? Join the [Discord server](https://discord.gg/QAG8eWABGT). 
+
 # Template Macro
 You can use this module to trigger macros on certain events related to Measured Templates. The events include:
 - when a template is created ("whenCreated"), deleted ("whenDeleted"), moved ("whenMoved"), hidden ("whenHidden"), or revealed ("whenRevealed").
